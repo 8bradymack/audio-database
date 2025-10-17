@@ -83,21 +83,122 @@
             display: block;
         }
 
+        .search-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
         .search-bar {
             width: 100%;
-            padding: 15px;
+            padding: 15px 50px 15px 15px;
             background: rgba(30, 30, 50, 0.8);
             border: 2px solid rgba(0, 212, 255, 0.3);
             border-radius: 10px;
             color: #fff;
             font-size: 16px;
-            margin-bottom: 25px;
         }
 
         .search-bar:focus {
             outline: none;
             border-color: #00d4ff;
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 15px;
+            background: rgba(255, 107, 53, 0.8);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            padding: 0;
+        }
+
+        .clear-search:hover {
+            background: rgba(255, 107, 53, 1);
+            transform: scale(1.1);
+        }
+
+        .clear-search.visible {
+            display: flex;
+        }
+
+        .search-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 50, 0.98);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 100;
+            margin-top: -10px;
+            padding-top: 10px;
+        }
+
+        .search-dropdown.visible {
+            display: block;
+        }
+
+        .search-result {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(100, 100, 150, 0.2);
+            transition: all 0.2s;
+        }
+
+        .search-result:hover {
+            background: rgba(0, 212, 255, 0.2);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: #00d4ff;
+            margin-bottom: 4px;
+        }
+
+        .search-result-subtitle {
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        .section-header {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid #00d4ff;
+            padding: 15px 20px;
+            margin: 30px 0 20px 0;
+            border-radius: 8px;
+        }
+
+        .section-title {
+            color: #00d4ff;
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .section-subtitle {
+            color: #888;
+            font-size: 1em;
         }
 
         .channel-grid {
@@ -122,12 +223,32 @@
             box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
         }
 
-        .channel-card.wireless {
-            border-left: 4px solid #ff6b35;
+        .color-cy, .color-cyi {
+            border-left: 4px solid #00CED1;
         }
 
-        .channel-card.wired {
-            border-left: 4px solid #00d4ff;
+        .color-bl {
+            border-left: 4px solid #4169E1;
+        }
+
+        .color-rd {
+            border-left: 4px solid #DC143C;
+        }
+
+        .color-ye, .color-yei {
+            border-left: 4px solid #FFD700;
+        }
+
+        .color-gn {
+            border-left: 4px solid #32CD32;
+        }
+
+        .color-mg {
+            border-left: 4px solid #BA55D3;
+        }
+
+        .color-wh, .color-whi {
+            border-left: 4px solid #FFFFFF;
         }
 
         .channel-header {
@@ -207,7 +328,14 @@
             border: 2px solid rgba(150, 100, 200, 0.3);
             border-radius: 12px;
             padding: 20px;
-            border-left: 4px solid #9b59b6;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .output-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.6);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
         }
 
         .badge {
@@ -223,6 +351,16 @@
         .badge-wireless {
             background: #ff6b35;
             color: #000;
+        }
+
+        .badge-card {
+            background: #9b59b6;
+            color: #fff;
+        }
+
+        .badge-trigger {
+            background: #e74c3c;
+            color: #fff;
         }
 
         .badge-eq {
@@ -351,6 +489,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            overflow-y: auto;
         }
 
         .modal-content {
@@ -363,6 +502,7 @@
             max-height: 90vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+            position: relative;
         }
 
         .modal-close {
@@ -412,7 +552,8 @@
         </header>
 
         <div class="nav-tabs">
-            <div class="nav-tab active" onclick="showTab('inputs')">Inputs (Ch 1-32)</div>
+            <div class="nav-tab active" onclick="showTab('all')">All</div>
+            <div class="nav-tab" onclick="showTab('inputs')">Inputs (Ch 1-32)</div>
             <div class="nav-tab" onclick="showTab('auxin')">Auxiliary Inputs</div>
             <div class="nav-tab" onclick="showTab('buses')">Buses & Monitors</div>
             <div class="nav-tab" onclick="showTab('outputs')">Outputs & S32</div>
@@ -420,24 +561,65 @@
             <div class="nav-tab" onclick="showTab('matrix')">Routing Matrix</div>
         </div>
 
-        <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Search channels, outputs, buses..." onkeyup="filterContent()">
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Search channels, outputs, buses..." oninput="handleSearch()" onfocus="showSearchDropdown()">
+                <button class="clear-search" id="clearSearch" onclick="clearSearch()">×</button>
+            </div>
+            <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
 
-        <!-- INPUTS TAB -->
-        <div id="inputs" class="tab-content active">
+        <div id="all" class="tab-content active">
+            <div class="section-header">
+                <div class="section-title">📥 Input Channels (1-32)</div>
+                <div class="section-subtitle">Microphones, wireless systems, and stage inputs</div>
+            </div>
+            <div class="channel-grid" id="allInputsGrid"></div>
+
+            <div class="section-header">
+                <div class="section-title">🔌 Auxiliary Inputs</div>
+                <div class="section-subtitle">Graphics, line inputs, Bluetooth, and USB</div>
+            </div>
+            <div class="channel-grid" id="allAuxGrid"></div>
+
+            <div class="section-header">
+                <div class="section-title">🎛️ Buses & Monitors</div>
+                <div class="section-subtitle">Monitor mixes and submixes</div>
+            </div>
+            <div class="output-grid" id="allBusGrid"></div>
+
+            <div class="section-header">
+                <div class="section-title">🎚️ Effects Processors</div>
+                <div class="section-subtitle">Reverbs, delays, and dynamics</div>
+            </div>
+            <div class="output-grid" id="allFxGrid"></div>
+
+            <div class="section-header">
+                <div class="section-title">📤 S32 Stage Box & Outputs</div>
+                <div class="section-subtitle">Physical output connections</div>
+            </div>
+            <div class="s32-section">
+                <h2 class="s32-title">S32 Stage Box Connections (AES50A)</h2>
+                <div class="connection-grid" id="allS32Grid"></div>
+            </div>
+            <div class="s32-section">
+                <h2 class="s32-title">Main Console Outputs</h2>
+                <div class="connection-grid" id="allMainOutputGrid"></div>
+            </div>
+        </div>
+
+        <div id="inputs" class="tab-content">
             <div class="channel-grid" id="channelGrid"></div>
         </div>
 
-        <!-- AUXILIARY INPUTS TAB -->
         <div id="auxin" class="tab-content">
             <div class="channel-grid" id="auxinGrid"></div>
         </div>
 
-        <!-- BUSES TAB -->
         <div id="buses" class="tab-content">
             <div class="output-grid" id="busGrid"></div>
         </div>
 
-        <!-- OUTPUTS TAB -->
         <div id="outputs" class="tab-content">
             <div class="s32-section">
                 <h2 class="s32-title">S32 Stage Box Connections (AES50A)</h2>
@@ -450,12 +632,10 @@
             </div>
         </div>
 
-        <!-- FX TAB -->
         <div id="fx" class="tab-content">
             <div class="output-grid" id="fxGrid"></div>
         </div>
 
-        <!-- ROUTING MATRIX TAB -->
         <div id="matrix" class="tab-content">
             <div class="routing-matrix">
                 <h2 style="color: #00d4ff; margin-bottom: 20px;">Complete Routing Matrix</h2>
@@ -464,7 +644,6 @@
         </div>
     </div>
 
-    <!-- Modal for detailed view -->
     <div id="detailModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -474,302 +653,465 @@
 
     <script>
         const channelData = {
-            1: { name: "Jason", type: "wireless", wireless: "Shure Headset", preamp: "+8.3dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: +2.8dB", "Mix 10"], color: "CYi" },
-            2: { name: "Black HH", type: "wireless", wireless: "Shure HH", preamp: "+9.3dB", eq: true, comp: true, gate: false, insert: "FX8L", sends: ["Mon 1: +3.8dB", "Mix 10"], color: "CYi" },
-            3: { name: "Red Mic", type: "wireless", wireless: "Shure HH", preamp: "+9.3dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: +0.8dB", "Mix 10"], color: "CYi" },
-            4: { name: "Vox 1", type: "wired", preamp: "+9.3dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -8.8dB", "Mon 2: -31dB", "Bus 9: +1.5dB", "Bus 13: +0.5dB", "Bus 14: +0.3dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
-            5: { name: "Vox 2", type: "wired", preamp: "+6.5dB", eq: true, comp: false, gate: true, insert: "FX5L", sends: ["Mon 1: -7.5dB", "Mon 2: -40dB", "Bus 9: +2.0dB", "Bus 13: +0.5dB", "Bus 14: +0.5dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
-            6: { name: "Vox 3", type: "wired", preamp: "+5.3dB", eq: true, comp: false, gate: true, insert: "FX6L", sends: ["Mon 1: +3.5dB", "Mon 2: -31dB", "Bus 9: +1.5dB", "Bus 13: +0.5dB", "Bus 14: +0.5dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
-            7: { name: "Vox 4", type: "wired", preamp: "+9.3dB", eq: true, comp: false, gate: true, insert: "FX5R", sends: ["Mon 1: +2.8dB", "Mon 2: -31dB", "Mon 4: -13.5dB", "Bus 9: +1.8dB", "Bus 13: +0.5dB", "Bus 14: +0.8dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
-            8: { name: "Vox 5", type: "wired", preamp: "+6.3dB", eq: true, comp: false, gate: true, insert: "FX6R", sends: ["Mon 1: +2.3dB", "Mon 2: -32dB", "Mon 3: -20dB", "Mon 4: -9dB", "Bus 9: +1.3dB", "Bus 13: +0.5dB", "Bus 14: +0.8dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
+            1: { name: "Jason", type: "wireless", wireless: "Shure Headset", source: "Stage Input 1", preamp: "+8.3dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: +2.8dB"], color: "CYi" },
+            2: { name: "Black HH", type: "wireless", wireless: "Shure HH", source: "Stage Input 2", preamp: "+9.3dB", eq: true, comp: true, gate: false, insert: "FX8L", sends: ["Mon 1: +3.8dB"], color: "CYi" },
+            3: { name: "Red Mic", type: "wireless", wireless: "Shure HH", source: "Stage Input 3", preamp: "+9.3dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: +0.8dB"], color: "CYi" },
+            4: { name: "Vox 1 (AutoTune)", type: "card", source: "CARD In (Mac/Plugin)", note: "Autotune + Multiband Comp - FOH Only. Double-patched to Ch 28 for monitors.", preamp: "+9.3dB", eq: true, comp: true, gate: true, insert: false, sends: ["Bus 9: +1.5dB", "Bus 13: +0.5dB", "Bus 14: +0.3dB", "Bus 16: +1.8dB", "Main LR: -21dB"], color: "CY", dca: "Vox" },
+            5: { name: "Vox 2 (AutoTune)", type: "card", source: "CARD In (Mac/Plugin)", note: "Autotune + Multiband Comp - FOH Only. Double-patched to Ch 29 for monitors.", preamp: "+6.5dB", eq: true, comp: false, gate: true, insert: "FX5L", sends: ["Bus 9: +2.0dB", "Bus 13: +0.5dB", "Bus 14: +0.5dB", "Bus 16: +1.8dB", "Main LR: -14.5dB"], color: "CY", dca: "Vox" },
+            6: { name: "Vox 3 (AutoTune)", type: "card", source: "CARD In (Mac/Plugin)", note: "Autotune + Multiband Comp - FOH Only. Double-patched to Ch 30 for monitors.", preamp: "+5.3dB", eq: true, comp: false, gate: true, insert: "FX6L", sends: ["Bus 9: +1.5dB", "Bus 13: +0.5dB", "Bus 14: +0.5dB", "Bus 16: +1.8dB", "Main LR: -16dB"], color: "CY", dca: "Vox" },
+            7: { name: "Vox 4 (AutoTune)", type: "card", source: "CARD In (Mac/Plugin)", note: "Autotune + Multiband Comp - FOH Only. Double-patched to Ch 31 for monitors.", preamp: "+9.3dB", eq: true, comp: false, gate: true, insert: "FX5R", sends: ["Bus 9: +1.8dB", "Bus 13: +0.5dB", "Bus 14: +0.8dB", "Bus 16: +1.8dB", "Main LR: -24.5dB"], color: "CY", dca: "Vox" },
+            8: { name: "Vox 5 (AutoTune)", type: "card", source: "CARD In (Mac/Plugin)", note: "Autotune + Multiband Comp - FOH Only. Double-patched to Ch 32 for monitors.", preamp: "+6.3dB", eq: true, comp: false, gate: true, insert: "FX6R", sends: ["Bus 9: +1.3dB", "Bus 13: +0.5dB", "Bus 14: +0.8dB", "Bus 16: +1.8dB", "Main LR: -22dB"], color: "CY", dca: "Vox" },
             9: { name: "GTR 1", type: "wired", preamp: "0.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -7dB", "Mon 2: -13.5dB", "Mon 3: -19dB", "Mon 4: -12.5dB", "Bus 11: +2.3dB", "Bus 12: +2.3dB", "Bus 16: -33dB"], color: "BL", dca: "Inst" },
             10: { name: "GTR 2", type: "wired", preamp: "0.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: +1.8dB", "Mon 2: -30dB", "Mon 3: -19dB", "Mon 4: -12.5dB", "Bus 11: +2.3dB", "Bus 12: +2.3dB", "Bus 16: -33dB"], color: "BL", dca: "Inst" },
             11: { name: "Keys", type: "wired", preamp: "+8.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -87dB", "Mon 2: +0.3dB", "Mon 3: -87dB", "Bus 11: -4.8dB", "Bus 12: -4.8dB"], color: "BL", dca: "Inst" },
             12: { name: "Cajon", type: "wired", preamp: "+1.5dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -72dB", "Bus 11: +3.3dB", "Bus 12: +3.3dB"], color: "BL", dca: "Inst" },
             13: { name: "Pad L", type: "wired", preamp: "+4.8dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -24.5dB", "Bus 11: -12.5dB", "Bus 12: -12.5dB"], color: "BL", dca: "Pad" },
             14: { name: "Pad R", type: "wired", preamp: "+4.8dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -24.5dB", "Bus 11: -12.5dB", "Bus 12: -12.5dB"], color: "BL", dca: "Pad" },
-            15: { name: "Kick", type: "wired", preamp: "+4.8dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: -1dB", "Bus 11: -12.5dB", "Bus 12: -12.5dB"], color: "YEi", dca: "Drum" },
-            16: { name: "Snare", type: "wired", preamp: "+8.8dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: +0.8dB", "Bus 11: -12.5dB", "Bus 12: -12.5dB"], color: "YEi", dca: "Drum" },
-            17: { name: "Kick", type: "wired", preamp: "+4.0dB", eq: false, comp: false, gate: false, insert: false, sends: ["Mon 1: -17.5dB", "Bus 11: -7.5dB", "Bus 12: -7.5dB"], color: "RD", dca: "Drum" },
-            18: { name: "Snare T", type: "wired", preamp: "-9.8dB", eq: false, comp: false, gate: false, insert: false, sends: ["Mon 1: -17dB", "Bus 11: -7.8dB", "Bus 12: -7.8dB", "Bus 15: -8.3dB"], color: "RD", dca: "Drum" },
-            19: { name: "Hi-TOM", type: "wired", preamp: "0.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -7.5dB", "Bus 11: -9dB", "Bus 12: -9dB"], color: "RD", dca: "Drum" },
-            20: { name: "MidTOM", type: "wired", preamp: "-0.5dB", eq: true, comp: true, gate: true, insert: false, sends: ["Bus 11: -8.8dB", "Bus 12: -8.8dB"], color: "RD", dca: "Drum" },
-            21: { name: "LowTOM", type: "wired", preamp: "-0.5dB", eq: false, comp: true, gate: true, insert: false, sends: ["Mon 1: -8.3dB", "Bus 11: -9dB", "Bus 12: -9dB"], color: "RD", dca: "Drum" },
-            22: { name: "HiHat", type: "wired", preamp: "-3.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -87dB", "Bus 11: -9.8dB", "Bus 12: -9.8dB"], color: "RD", dca: "Drum" },
-            23: { name: "Overhd L", type: "wired", preamp: "-3.0dB", eq: false, comp: true, gate: true, insert: false, sends: ["Mon 1: -4.8dB", "Bus 11: -8.8dB", "Bus 12: -8.8dB"], color: "RD", dca: "Drum" },
-            24: { name: "Overhd R", type: "wired", preamp: "-3.0dB", eq: false, comp: true, gate: true, insert: false, sends: ["Mon 1: -12.5dB", "Bus 11: -8dB", "Bus 12: -8dB"], color: "RD", dca: "Drum" },
-            25: { name: "Room", type: "wired", preamp: "+9.3dB", eq: true, comp: true, gate: true, insert: false, sends: ["Bus 11: +1.5dB", "Bus 12: +1.5dB"], color: "CYi", dca: "Drum" },
+            15: { name: "Kick", type: "card", source: "CARD (Drum Trigger)", note: "Drum trigger from Mac", preamp: "+4.8dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: -1dB", "Bus 11: -12.5dB", "Bus 12: -12.5dB"], color: "YEi", dca: "Drum" },
+            16: { name: "Snare", type: "card", source: "CARD (Drum Trigger)", note: "Drum trigger from Mac", preamp: "+8.8dB", eq: true, comp: true, gate: false, insert: false, sends: ["Mon 1: +0.8dB", "Bus 11: -12.5dB", "Bus 12: -12.5dB"], color: "YEi", dca: "Drum" },
+            17: { name: "Kick", type: "wired", note: "Actual kick drum mic", preamp: "+4.0dB", eq: false, comp: false, gate: false, insert: false, sends: ["Mon 1: -17.5dB", "Bus 11: -7.5dB", "Bus 12: -7.5dB"], color: "RD", dca: "Drum" },
+            18: { name: "Snare T", type: "wired", note: "Actual snare mic", preamp: "-9.8dB", eq: false, comp: false, gate: false, insert: false, sends: ["Mon 1: -17dB", "Bus 11: -7.8dB", "Bus 12: -7.8dB", "Bus 15: -8.3dB"], color: "RD", dca: "Drum" },
+            19: { name: "Hi-TOM", type: "wired", note: "Actual tom mic", preamp: "0.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -7.5dB", "Bus 11: -9dB", "Bus 12: -9dB"], color: "RD", dca: "Drum" },
+            20: { name: "MidTOM", type: "wired", note: "Actual tom mic", preamp: "-0.5dB", eq: true, comp: true, gate: true, insert: false, sends: ["Bus 11: -8.8dB", "Bus 12: -8.8dB"], color: "RD", dca: "Drum" },
+            21: { name: "LowTOM", type: "wired", note: "Actual tom mic", preamp: "-0.5dB", eq: false, comp: true, gate: true, insert: false, sends: ["Mon 1: -8.3dB", "Bus 11: -9dB", "Bus 12: -9dB"], color: "RD", dca: "Drum" },
+            22: { name: "HiHat", type: "wired", note: "Actual hi-hat mic", preamp: "-3.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -87dB", "Bus 11: -9.8dB", "Bus 12: -9.8dB"], color: "RD", dca: "Drum" },
+            23: { name: "Overhd L", type: "wired", note: "Actual overhead mic", preamp: "-3.0dB", eq: false, comp: true, gate: true, insert: false, sends: ["Mon 1: -4.8dB", "Bus 11: -8.8dB", "Bus 12: -8.8dB"], color: "RD", dca: "Drum" },
+            24: { name: "Overhd R", type: "wired", note: "Actual overhead mic", preamp: "-3.0dB", eq: false, comp: true, gate: true, insert: false, sends: ["Mon 1: -12.5dB", "Bus 11: -8dB", "Bus 12: -8dB"], color: "RD", dca: "Drum" },
+            25: { name: "Room", type: "wired", note: "Room mic", preamp: "+9.3dB", eq: true, comp: true, gate: true, insert: false, sends: ["Bus 11: +1.5dB", "Bus 12: +1.5dB"], color: "CYi", dca: "Drum" },
             26: { name: "TKBK 1", type: "wired", note: "Wired mic at console with switch", preamp: "+9.3dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: +1.3dB", "Mon 2: -5dB", "Mon 3: -13dB", "Mon 4: -8.5dB"], color: "CYi" },
             27: { name: "TKBK 2", type: "wireless", wireless: "Shure HH", note: "For talking to band remotely", preamp: "0.0dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: +1.5dB", "Mon 2: -5dB", "Mon 3: -13dB", "Mon 4: -9dB"], color: "CYi" },
-            28: { name: "Vox 1", type: "wired", note: "DUPLICATE - Check routing", preamp: "+9.3dB", eq: true, comp: true, gate: true, insert: false, color: "CY" },
-            29: { name: "Vox 2", type: "wired", note: "DUPLICATE - Check routing", preamp: "+3.5dB", eq: true, comp: false, gate: true, insert: false, color: "CY" },
-            30: { name: "Vox 3", type: "wired", note: "DUPLICATE - Check routing", preamp: "+1.3dB", eq: true, comp: false, gate: true, insert: false, color: "CY" },
-            31: { name: "Vox 4", type: "wired", note: "DUPLICATE - Check routing", preamp: "-5.3dB", eq: true, comp: false, gate: true, insert: false, color: "CY" },
-            32: { name: "Vox 5", type: "wired", note: "DUPLICATE - Check routing", preamp: "-5.3dB", eq: true, comp: false, gate: true, insert: false, color: "CY" }
+            28: { name: "Vox 1 (Monitor)", type: "wired", note: "Double-patch of Ch 4 - No AutoTune for monitors", preamp: "+9.3dB", eq: true, comp: true, gate: true, insert: false, sends: ["Mon 1: -oo", "Bus 9: +1.5dB", "Bus 13: +0.5dB", "Bus 14: +0.3dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
+            29: { name: "Vox 2 (Monitor)", type: "wired", note: "Double-patch of Ch 5 - No AutoTune for monitors", preamp: "+3.5dB", eq: true, comp: false, gate: true, insert: false, sends: ["Mon 1: -9.8dB", "Mon 2: -9dB", "Bus 9: +2.0dB", "Bus 13: +0.5dB", "Bus 14: +0.5dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
+            30: { name: "Vox 3 (Monitor)", type: "wired", note: "Double-patch of Ch 6 - No AutoTune for monitors", preamp: "+1.3dB", eq: true, comp: false, gate: true, insert: false, sends: ["Mon 1: -8.8dB", "Mon 2: -13.5dB", "Bus 9: +1.5dB", "Bus 13: +0.5dB", "Bus 14: +0.5dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
+            31: { name: "Vox 4 (Monitor)", type: "wired", note: "Double-patch of Ch 7 - No AutoTune for monitors", preamp: "-5.3dB", eq: true, comp: false, gate: true, insert: false, sends: ["Mon 1: -10dB", "Mon 2: -8.5dB", "Mon 3: -2.8dB", "Mon 4: -20dB", "Mon 8: -9dB", "Bus 9: +1.3dB", "Bus 13: +0.5dB", "Bus 14: +0.8dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" },
+            32: { name: "Vox 5 (Monitor)", type: "wired", note: "Double-patch of Ch 8 - No AutoTune for monitors", preamp: "-5.3dB", eq: true, comp: false, gate: true, insert: false, sends: ["Mon 1: -12.5dB", "Mon 2: -12dB", "Mon 3: -2.8dB", "Mon 4: -20dB", "Mon 8: -9dB", "Bus 9: +1.3dB", "Bus 13: +0.5dB", "Bus 14: +0.8dB", "Bus 16: +1.8dB"], color: "CY", dca: "Vox" }
         };
 
         const auxInputData = {
-            33: { name: "Graphics L", device: "Mac Mini (Slides)", preamp: "+5.5dB", eq: true, sends: ["Bus 11: +9dB", "Bus 12: +9dB"], color: "GN" },
-            34: { name: "Graphics R", device: "Mac Mini (Slides)", preamp: "+5.5dB", eq: true, sends: ["Bus 11: +9dB", "Bus 12: +9dB"], color: "GN" },
-            35: { name: "Line L", device: "1/8\" Jack (Computer/iPhone)", preamp: "+6.5dB", eq: false, sends: ["Bus 11: +5.8dB", "Bus 12: +5.8dB", "Bus 16: -87dB"], color: "GN" },
-            36: { name: "Line R", device: "1/8\" Jack (Computer/iPhone)", preamp: "+6.5dB", eq: false, sends: ["Bus 11: +5.8dB", "Bus 12: +5.8dB", "Bus 16: -87dB"], color: "GN" },
-            37: { name: "BT L", device: "Bluetooth Audio", preamp: "+4.8dB", eq: true, sends: ["Bus 11: +6.5dB", "Bus 12: +6.5dB"], color: "GN" },
-            38: { name: "BT R", device: "Bluetooth Audio", preamp: "+4.8dB", eq: true, sends: ["Bus 11: +6.5dB", "Bus 12: +6.5dB"], color: "GN" },
-            39: { name: "USB L", device: "Console USB Port", preamp: "+2.0dB", eq: false, sends: ["Bus 13", "Bus 14", "Bus 15"], color: "YE" },
-            40: { name: "USB R", device: "Console USB Port", preamp: "+2.0dB", eq: false, sends: ["Bus 13", "Bus 14", "Bus 15"], color: "YE" }
+            "1-2": { name: "Graphics L/R", device: "MacBook Pro (Graphics)", preamp: "+5.5dB", eq: true, comp: false, gate: false, sends: ["Bus 11: +9.0dB", "Bus 12: +9.0dB"], color: "GN", dca: "Graphics", stereo: true },
+            "3-4": { name: "Line L/R", device: "Line Input", preamp: "+6.5dB", eq: false, comp: false, gate: false, sends: ["Bus 11: +5.8dB", "Bus 12: +5.8dB", "Bus 16: -87dB"], color: "GN", dca: "Aux", stereo: true },
+            "5-6": { name: "BT L/R", device: "Bluetooth Receiver", preamp: "+4.8dB", eq: true, comp: false, gate: false, sends: ["Bus 11: +6.5dB", "Bus 12: +6.5dB"], color: "GN", dca: "Aux", stereo: true },
+            "7-8": { name: "USB L/R", device: "X32 USB Playback", preamp: "+2.0dB", eq: false, comp: false, gate: false, sends: [], color: "YE", stereo: true }
         };
 
         const busData = {
-            1: { name: "Mon 1", purpose: "Vocalist Monitor", eq: true, comp: false, insert: "FX7L", outputs: "AES50A Out 4" },
-            2: { name: "Mon 2", purpose: "Vocalist Monitor", eq: true, comp: false, insert: "FX7R", outputs: "AES50A Out 5" },
-            3: { name: "Mon 3", purpose: "Cajonist Monitor", eq: true, comp: false, insert: false },
-            4: { name: "Mon 4", purpose: "Violin/Bass/Vocalist", eq: true, comp: false, insert: false },
-            5: { name: "Drum IEM", purpose: "Drummer In-Ear Monitor (Wired)", eq: true, comp: false, insert: false, outputs: "S32 Output" },
-            6: { name: "Piano IEM", purpose: "Piano In-Ear Monitor (Wired)", eq: false, comp: false, insert: false, outputs: "S32 Output" },
-            7: { name: "GTR IEM", purpose: "Guitar In-Ear Monitor (Wired)", eq: true, comp: false, insert: false, outputs: "S32 Output" },
-            8: { name: "Vox IEM", purpose: "Vocalist In-Ear Monitor (Wired)", eq: false, comp: false, insert: false, outputs: "S32 Output" },
-            9: { name: "Vocals", purpose: "Vocal Submix", eq: false, comp: true, insert: false },
-            10: { name: "Speakers", purpose: "Main Speaker Feed", eq: true, comp: false, insert: false },
-            11: { name: "Misc L", purpose: "Miscellaneous Left", eq: true, comp: true, insert: false },
-            12: { name: "Misc R", purpose: "Miscellaneous Right", eq: true, comp: true, insert: false },
-            13: { name: "Fx 1", purpose: "Effects Send 1 (Ambiance)", eq: true, comp: false, insert: false },
-            14: { name: "Fx 2", purpose: "Effects Send 2 (Plate)", eq: true, comp: false, insert: true },
-            15: { name: "Fx 3", purpose: "Effects Send 3 (Ambiance)", eq: true, comp: false, insert: false },
-            16: { name: "Fx 4", purpose: "Effects Send 4 (Delay)", eq: true, comp: true, insert: false }
-        };
-
-        const s32Connections = {
-            "Out 1": "Main Left Speaker",
-            "Out 2": "Main Right Speaker",
-            "Out 3": "Subwoofer",
-            "Out 4": "Mon 1 (Vocalist Monitor)",
-            "Out 5": "Mon 2 (Vocalist Monitor)",
-            "Out 6": "Drum IEM (Wired)",
-            "Out 7": "Piano IEM (Wired)",
-            "Out 8": "GTR IEM (Wired)",
-            "In 1-32": "Stage Inputs (Channels 1-32)"
-        };
-
-        const mainOutputs = {
-            "Main 1": "Monitor Out (Bus 1)",
-            "Main 2": "Monitor Out (Bus 2)",
-            "Main 3": "Monitor Out (Bus 3)",
-            "Main 4": "Monitor Out (Bus 9)",
-            "Main 5": "Monitor Out (Bus 11)",
-            "Main 6": "Monitor Out (Bus 10)",
-            "Main 7": "Matrix 1 (Patio) with 31.1ms delay",
-            "Main 8": "Matrix 2 with 31.1ms delay",
-            "Main 9": "Monitor Out (Bus 4)",
-            "Main 10": "Monitor Out (Bus 5)",
-            "Main 11": "Monitor Out (Bus 6)",
-            "Main 12": "Monitor Out (Bus 7)",
-            "Main 13": "Unused",
-            "Main 14": "Matrix 5 (Stream L)",
-            "Main 15": "ATEM Livestream (300ms delay)",
-            "Main 16": "ATEM Livestream"
+            1: { name: "Mon 1", purpose: "Jason's Monitor Mix", outputs: "S32 Out 1", eq: true, comp: false, insert: "FX7L", color: "CY" },
+            2: { name: "Mon 2", purpose: "Keys Monitor Mix", outputs: "S32 Out 2", eq: true, comp: false, insert: "FX7R", color: "CY" },
+            3: { name: "Mon 3", purpose: "Background Vocals Monitor", outputs: "S32 Out 3", eq: true, comp: false, insert: false, color: "CY" },
+            4: { name: "Mon 4", purpose: "Drums Monitor Mix", outputs: "S32 Out 4", eq: true, comp: false, insert: false, color: "CY" },
+            5: { name: "Drum IEM", purpose: "Drummer In-Ear Monitor", outputs: "S32 Out 5", eq: true, comp: false, insert: false, color: "CY" },
+            6: { name: "Piano IEM", purpose: "Piano In-Ear Monitor", outputs: "S32 Out 6", eq: false, comp: false, insert: false, color: "CY" },
+            7: { name: "GTR IEM", purpose: "Guitar In-Ear Monitor", outputs: "Console Out 7", eq: true, comp: false, insert: false, color: "CY" },
+            8: { name: "Vox IEM", purpose: "Vocal In-Ear Monitor", outputs: "S32 Out 8", eq: false, comp: false, insert: false, color: "CY" },
+            9: { name: "Vocals", purpose: "Vocal Reverb Bus", outputs: "FX1", eq: false, comp: true, insert: false, color: "WHi" },
+            10: { name: "Speakers", purpose: "Speaker Output Bus", outputs: "Matrix 1/3/4", eq: true, comp: false, insert: false, color: "WHi" },
+            11: { name: "Misc L", purpose: "Main FOH Left", outputs: "Console Out 11", eq: true, comp: true, insert: false, color: "WHi" },
+            12: { name: "Misc R", purpose: "Main FOH Right", outputs: "Console Out 12", eq: true, comp: true, insert: false, color: "WHi" },
+            13: { name: "Fx 1", purpose: "Effects Send 1 (Ambience)", outputs: "FX1 In", eq: true, comp: false, insert: false, color: "MG" },
+            14: { name: "Fx 2", purpose: "Effects Send 2 (Plate)", outputs: "FX2 In", eq: true, comp: false, insert: "ON PRE", color: "MG" },
+            15: { name: "Fx 3", purpose: "Effects Send 3 (Ambience)", outputs: "FX3 In", eq: true, comp: false, insert: false, color: "MG" },
+            16: { name: "Fx 4", purpose: "Effects Send 4 (Delay)", outputs: "FX4 In", eq: true, comp: true, insert: false, color: "MG" }
         };
 
         const fxData = {
-            1: { name: "Ambiance", type: "AMBI", source: "Bus 13", returns: ["FX Rtn 1/2"], settings: "Predelay 4, Size 0.78, Decay 60" },
-            2: { name: "Plate Reverb", type: "RPLT", source: "Bus 14", returns: ["FX Rtn 3/4"], settings: "Predelay 10, Size 3.54, Decay 27" },
-            3: { name: "Ambiance 2", type: "AMBI", source: "Bus 15", returns: ["FX Rtn 5/6"], settings: "Predelay 4, Size 0.84, Decay 60" },
-            4: { name: "Delay", type: "DLY", source: "Bus 16", returns: ["FX Rtn 7/8"], settings: "Mix 100%, Time 444ms" },
-            5: { name: "De-Esser", type: "LEC", source: "Ch 5 Insert", returns: [], settings: "Threshold 58, Ratio 66, Comp mode" },
-            6: { name: "De-Esser", type: "LEC", source: "Ch 6 Insert", returns: [], settings: "Threshold 46, Ratio 58, Comp mode" },
-            7: { name: "GEQ Stereo", type: "GEQ2", source: "Bus 1/2 Insert", returns: [], settings: "31-band graphic EQ (flat)" },
-            8: { name: "De-Esser Stereo", type: "DES2", source: "Ch 2 Insert", returns: [], settings: "Threshold 33, Male to Female" }
+            1: { name: "Vocal Hall", type: "Hall Reverb", source: "Bus 9", returns: ["FX1L -> Ch 33", "FX1R -> Ch 34"], settings: "2.8s decay, Pre-delay 40ms", color: "CY" },
+            2: { name: "Vocal Plate", type: "Plate Reverb", source: "Bus 13", returns: ["FX2L -> Ch 35"], settings: "1.5s decay, Bright", color: "CY" },
+            3: { name: "Snare Verb", type: "Gated Reverb", source: "Ch 18", returns: ["FX3L -> Ch 36"], settings: "Gate 250ms, Room size", color: "RD" },
+            4: { name: "Stereo Delay", type: "Stereo Delay", source: "Bus 14", returns: ["FX4L -> Ch 37", "FX4R -> Ch 38"], settings: "1/4 note, 30% feedback", color: "YE" },
+            5: { name: "Vox Comp L", type: "Dynamic EQ", source: "Insert Ch 5", returns: [], settings: "Multiband compression", color: "CY" },
+            6: { name: "Vox Comp R", type: "Dynamic EQ", source: "Insert Ch 6", returns: [], settings: "Multiband compression", color: "CY" },
+            7: { name: "Master Comp", type: "Stereo Comp", source: "Insert Bus 11/12", returns: [], settings: "2:1 ratio, Soft knee", color: "WHi" },
+            8: { name: "Mic De-esser", type: "De-esser", source: "Insert Ch 2", returns: [], settings: "6kHz, -4dB reduction", color: "CYi" }
         };
 
-        function renderChannels() {
-            const grid = document.getElementById('channelGrid');
-            grid.innerHTML = '';
+        const s32Connections = {
+            "Input 1-8": "Stage Snake Block A",
+            "Input 9-16": "Stage Snake Block B",
+            "Input 17-24": "Drum Mics Direct",
+            "Input 25-32": "Stage Snake Block C",
+            "Output 1": "Jason Monitor (QSC K12)",
+            "Output 2": "Keys Monitor (QSC K10)",
+            "Output 3": "BGV Monitor (QSC K10)",
+            "Output 4": "Drums Monitor (QSC K12)",
+            "Output 5": "Side Fill Left (EV ZLX-15P)",
+            "Output 6": "Side Fill Right (EV ZLX-15P)",
+            "Output 7": "Reserved",
+            "Output 8": "Backstage Monitor"
+        };
+
+        const mainOutputs = {
+            "XLR Out 1-2": "Main LR (Not Used)",
+            "XLR Out 3-4": "Reserved",
+            "XLR Out 5-6": "Reserved",
+            "XLR Out 7-8": "Subwoofer Feed",
+            "XLR Out 9-10": "Reserved",
+            "XLR Out 11-12": "FOH Main (QSC KW153)",
+            "XLR Out 13-14": "Delay Towers",
+            "XLR Out 15-16": "Record/Stream"
+        };
+
+        let searchIndex = [];
+
+        function buildSearchIndex() {
+            searchIndex = [];
             
             for (let [num, data] of Object.entries(channelData)) {
-                const card = document.createElement('div');
-                card.className = `channel-card ${data.type}`;
-                card.onclick = () => showChannelDetail(num, data);
-                
-                let badges = '';
-                if (data.wireless) badges += '<span class="badge badge-wireless">WIRELESS</span>';
-                if (data.eq) badges += '<span class="badge badge-eq">EQ</span>';
-                if (data.comp) badges += '<span class="badge badge-comp">COMP</span>';
-                if (data.gate) badges += '<span class="badge badge-gate">GATE</span>';
-                if (data.insert) badges += '<span class="badge badge-insert">INSERT</span>';
-                
-                card.innerHTML = `
-                    <div class="channel-header">
-                        <span class="channel-number">CH ${num}</span>
-                        <span style="color: #${data.color === 'CYi' ? '00d4ff' : data.color === 'BL' ? '3498db' : data.color === 'YEi' ? 'f1c40f' : data.color === 'RD' ? 'e74c3c' : 'fff'}">●</span>
+                searchIndex.push({
+                    type: 'channel',
+                    id: num,
+                    title: `CH ${num}: ${data.name}`,
+                    subtitle: data.wireless || data.note || data.source || 'Input Channel',
+                    data: data,
+                    searchTerms: `ch ${num} ${data.name} ${data.wireless || ''} ${data.note || ''} ${data.source || ''} ${data.color}`.toLowerCase()
+                });
+            }
+            
+            for (let [num, data] of Object.entries(auxInputData)) {
+                searchIndex.push({
+                    type: 'aux',
+                    id: num,
+                    title: `AUX ${num}: ${data.name}`,
+                    subtitle: data.device,
+                    data: data,
+                    searchTerms: `aux ${num} ${data.name} ${data.device}`.toLowerCase()
+                });
+            }
+            
+            for (let [num, data] of Object.entries(busData)) {
+                searchIndex.push({
+                    type: 'bus',
+                    id: num,
+                    title: `Bus ${num}: ${data.name}`,
+                    subtitle: data.purpose,
+                    data: data,
+                    searchTerms: `bus ${num} ${data.name} ${data.purpose} ${data.outputs || ''}`.toLowerCase()
+                });
+            }
+            
+            for (let [num, data] of Object.entries(fxData)) {
+                searchIndex.push({
+                    type: 'fx',
+                    id: num,
+                    title: `FX ${num}: ${data.name}`,
+                    subtitle: data.type,
+                    data: data,
+                    searchTerms: `fx ${num} ${data.name} ${data.type} ${data.source}`.toLowerCase()
+                });
+            }
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchBar').value.toLowerCase().trim();
+            const dropdown = document.getElementById('searchDropdown');
+            const clearBtn = document.getElementById('clearSearch');
+            
+            if (query.length === 0) {
+                dropdown.classList.remove('visible');
+                clearBtn.classList.remove('visible');
+                return;
+            }
+            
+            clearBtn.classList.add('visible');
+            
+            const results = searchIndex.filter(item => 
+                item.searchTerms.includes(query)
+            ).slice(0, 10);
+            
+            if (results.length === 0) {
+                dropdown.innerHTML = '<div class="search-result"><div class="search-result-title">No results found</div></div>';
+            } else {
+                dropdown.innerHTML = results.map(result => `
+                    <div class="search-result" onclick="selectSearchResult('${result.type}', '${result.id}')">
+                        <div class="search-result-title">${result.title}</div>
+                        <div class="search-result-subtitle">${result.subtitle}</div>
                     </div>
-                    <div class="channel-name">${data.name}</div>
-                    ${data.wireless ? `<div style="color: #ff6b35; font-size: 0.85em; margin-bottom: 8px;">📡 ${data.wireless}</div>` : ''}
-                    ${data.note ? `<div style="color: #f39c12; font-size: 0.85em; margin-bottom: 8px;">💡 ${data.note}</div>` : ''}
-                    <div class="channel-info">
-                        <div class="info-row">
-                            <span class="info-label">Preamp</span>
-                            <span class="info-value">${data.preamp}</span>
+                `).join('');
+            }
+            
+            dropdown.classList.add('visible');
+        }
+
+        function showSearchDropdown() {
+            const query = document.getElementById('searchBar').value.trim();
+            if (query.length > 0) {
+                document.getElementById('searchDropdown').classList.add('visible');
+            }
+        }
+
+        function clearSearch() {
+            document.getElementById('searchBar').value = '';
+            document.getElementById('searchDropdown').classList.remove('visible');
+            document.getElementById('clearSearch').classList.remove('visible');
+        }
+
+        function selectSearchResult(type, id) {
+            clearSearch();
+            
+            if (type === 'channel') {
+                showChannelDetail(id, channelData[id]);
+            } else if (type === 'aux') {
+                showAuxDetail(id, auxInputData[id]);
+            } else if (type === 'bus') {
+                showBusDetail(id, busData[id]);
+            } else if (type === 'fx') {
+                showFxDetail(id, fxData[id]);
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.querySelector('.search-container');
+            if (!searchContainer.contains(e.target)) {
+                document.getElementById('searchDropdown').classList.remove('visible');
+            }
+        });
+
+        function getColorStyle(color) {
+            const colorMap = {
+                'CY': '#00CED1',
+                'CYi': '#00CED1',
+                'BL': '#4169E1',
+                'RD': '#DC143C',
+                'YE': '#FFD700',
+                'YEi': '#FFD700',
+                'GN': '#32CD32',
+                'MG': '#BA55D3',
+                'WH': '#FFFFFF',
+                'WHi': '#FFFFFF'
+            };
+            return colorMap[color] || '#888';
+        }
+
+        function renderChannels() {
+            const grids = ['channelGrid', 'allInputsGrid'];
+            
+            grids.forEach(gridId => {
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                grid.innerHTML = '';
+                
+                for (let [num, data] of Object.entries(channelData)) {
+                    const card = document.createElement('div');
+                    card.className = `channel-card color-${data.color.toLowerCase()}`;
+                    card.onclick = () => showChannelDetail(num, data);
+                    
+                    let badges = '';
+                    if (data.wireless) badges += '<span class="badge badge-wireless">WIRELESS</span>';
+                    if (data.type === 'card') badges += '<span class="badge badge-card">CARD INPUT</span>';
+                    if (num == 15 || num == 16) badges += '<span class="badge badge-trigger">DRUM TRIGGER</span>';
+                    if (data.eq) badges += '<span class="badge badge-eq">EQ</span>';
+                    if (data.comp) badges += '<span class="badge badge-comp">COMP</span>';
+                    if (data.gate) badges += '<span class="badge badge-gate">GATE</span>';
+                    if (data.insert) badges += '<span class="badge badge-insert">INSERT</span>';
+                    
+                    card.innerHTML = `
+                        <div class="channel-header">
+                            <span class="channel-number">CH ${num}</span>
+                            <span style="color: ${getColorStyle(data.color)}; font-size: 1.5em;">●</span>
                         </div>
+                        <div class="channel-name">${data.name}</div>
+                        ${data.wireless ? `<div style="color: #ff6b35; font-size: 0.85em; margin-bottom: 8px;">📡 ${data.wireless}</div>` : ''}
+                        ${data.note ? `<div style="color: #f39c12; font-size: 0.85em; margin-bottom: 8px;">💡 ${data.note}</div>` : ''}
+                        <div class="channel-info">
+                            <div class="info-row">
+                                <span class="info-label">Preamp</span>
+                                <span class="info-value">${data.preamp}</span>
+                            </div>
+                            ${data.insert ? `<div class="info-row">
+                                <span class="info-label">Insert</span>
+                                <span class="info-value">${data.insert}</span>
+                            </div>` : ''}
+                            ${data.dca ? `<div class="info-row">
+                                <span class="info-label">DCA</span>
+                                <span class="info-value">${data.dca}</span>
+                            </div>` : ''}
+                        </div>
+                        <div style="margin-top: 10px;">${badges}</div>
+                        ${data.sends && data.sends.length > 0 ? `
+                            <div class="signal-flow">
+                                <div class="signal-flow-title">🎯 Sends To:</div>
+                                ${data.sends.slice(0, 3).map(s => `<div class="signal-destination">${s}</div>`).join('')}
+                                ${data.sends.length > 3 ? `<div style="color: #888; font-size: 0.8em; margin-top: 5px;">+${data.sends.length - 3} more...</div>` : ''}
+                            </div>
+                        ` : ''}
+                    `;
+                    
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        function renderAuxInputs() {
+            const grids = ['auxinGrid', 'allAuxGrid'];
+            
+            grids.forEach(gridId => {
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                grid.innerHTML = '';
+                
+                for (let [num, data] of Object.entries(auxInputData)) {
+                    const card = document.createElement('div');
+                    card.className = `channel-card color-${data.color.toLowerCase()}`;
+                    card.onclick = () => showAuxDetail(num, data);
+                    
+                    let badges = '';
+                    if (data.eq) badges += '<span class="badge badge-eq">EQ</span>';
+                    if (data.comp) badges += '<span class="badge badge-comp">COMP</span>';
+                    if (data.gate) badges += '<span class="badge badge-gate">GATE</span>';
+                    if (data.insert) badges += '<span class="badge badge-insert">INSERT</span>';
+                    
+                    card.innerHTML = `
+                        <div class="channel-header">
+                            <span class="channel-number">AUX ${num}</span>
+                            <span style="color: ${getColorStyle(data.color)}; font-size: 1.5em;">●</span>
+                        </div>
+                        <div class="channel-name">${data.name}</div>
+                        <div style="color: #00d4ff; font-size: 0.9em; margin-bottom: 10px;">🔌 ${data.device}</div>
+                        <div class="channel-info">
+                            <div class="info-row">
+                                <span class="info-label">Preamp</span>
+                                <span class="info-value">${data.preamp}</span>
+                            </div>
+                            ${data.dca ? `<div class="info-row">
+                                <span class="info-label">DCA</span>
+                                <span class="info-value">${data.dca}</span>
+                            </div>` : ''}
+                        </div>
+                        <div style="margin-top: 10px;">${badges}</div>
+                        ${data.sends && data.sends.length > 0 ? `
+                            <div class="signal-flow">
+                                <div class="signal-flow-title">🎯 Sends To:</div>
+                                ${data.sends.map(s => `<div class="signal-destination">${s}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    `;
+                    
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        function renderBuses() {
+            const grids = ['busGrid', 'allBusGrid'];
+            
+            grids.forEach(gridId => {
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                grid.innerHTML = '';
+                
+                for (let [num, data] of Object.entries(busData)) {
+                    const card = document.createElement('div');
+                    card.className = `output-card color-${data.color.toLowerCase()}`;
+                    card.onclick = () => showBusDetail(num, data);
+                    
+                    let badges = '';
+                    if (data.eq) badges += '<span class="badge badge-eq">EQ</span>';
+                    if (data.comp) badges += '<span class="badge badge-comp">COMP</span>';
+                    if (data.insert) badges += '<span class="badge badge-insert">INSERT</span>';
+                    
+                    card.innerHTML = `
+                        <div class="channel-header">
+                            <span class="channel-number">BUS ${num}</span>
+                            <span style="color: ${getColorStyle(data.color)}; font-size: 1.5em;">●</span>
+                        </div>
+                        <div class="channel-name">${data.name}</div>
+                        <div style="color: #9b59b6; font-size: 0.9em; margin-bottom: 10px;">📢 ${data.purpose}</div>
+                        ${data.outputs ? `<div class="info-row">
+                            <span class="info-label">Physical Output</span>
+                            <span class="info-value">${data.outputs}</span>
+                        </div>` : ''}
                         ${data.insert ? `<div class="info-row">
                             <span class="info-label">Insert</span>
                             <span class="info-value">${data.insert}</span>
                         </div>` : ''}
-                        ${data.dca ? `<div class="info-row">
-                            <span class="info-label">DCA</span>
-                            <span class="info-value">${data.dca}</span>
-                        </div>` : ''}
-                    </div>
-                    <div>${badges}</div>
-                    ${data.sends && data.sends.length > 0 ? `
-                        <div class="signal-flow">
-                            <div class="signal-flow-title">🎯 Sends To:</div>
-                            ${data.sends.slice(0, 3).map(s => `<div class="signal-destination">${s}</div>`).join('')}
-                            ${data.sends.length > 3 ? `<div style="color: #888; font-size: 0.8em; margin-top: 5px;">+${data.sends.length - 3} more...</div>` : ''}
-                        </div>
-                    ` : ''}
-                `;
-                
-                grid.appendChild(card);
-            }
-        }
-
-        function renderAuxInputs() {
-            const grid = document.getElementById('auxinGrid');
-            grid.innerHTML = '';
-            
-            for (let [num, data] of Object.entries(auxInputData)) {
-                const card = document.createElement('div');
-                card.className = 'channel-card wired';
-                card.onclick = () => showAuxDetail(num, data);
-                
-                let badges = '';
-                if (data.eq) badges += '<span class="badge badge-eq">EQ</span>';
-                
-                card.innerHTML = `
-                    <div class="channel-header">
-                        <span class="channel-number">AUX ${num}</span>
-                        <span style="color: #${data.color === 'GN' ? '27ae60' : data.color === 'YE' ? 'f1c40f' : 'fff'}">●</span>
-                    </div>
-                    <div class="channel-name">${data.name}</div>
-                    <div style="color: #00d4ff; font-size: 0.9em; margin-bottom: 10px;">🔌 ${data.device}</div>
-                    <div class="channel-info">
-                        <div class="info-row">
-                            <span class="info-label">Preamp</span>
-                            <span class="info-value">${data.preamp}</span>
-                        </div>
-                    </div>
-                    <div>${badges}</div>
-                    ${data.sends && data.sends.length > 0 ? `
-                        <div class="signal-flow">
-                            <div class="signal-flow-title">🎯 Sends To:</div>
-                            ${data.sends.map(s => `<div class="signal-destination">${s}</div>`).join('')}
-                        </div>
-                    ` : ''}
-                `;
-                
-                grid.appendChild(card);
-            }
-        }
-
-        function renderBuses() {
-            const grid = document.getElementById('busGrid');
-            grid.innerHTML = '';
-            
-            for (let [num, data] of Object.entries(busData)) {
-                const card = document.createElement('div');
-                card.className = 'output-card';
-                card.onclick = () => showBusDetail(num, data);
-                
-                let badges = '';
-                if (data.eq) badges += '<span class="badge badge-eq">EQ</span>';
-                if (data.comp) badges += '<span class="badge badge-comp">COMP</span>';
-                if (data.insert) badges += '<span class="badge badge-insert">INSERT</span>';
-                
-                card.innerHTML = `
-                    <div class="channel-header">
-                        <span class="channel-number">BUS ${num}</span>
-                    </div>
-                    <div class="channel-name">${data.name}</div>
-                    <div style="color: #9b59b6; font-size: 0.9em; margin-bottom: 10px;">📢 ${data.purpose}</div>
-                    ${data.outputs ? `<div class="info-row">
-                        <span class="info-label">Physical Output</span>
-                        <span class="info-value">${data.outputs}</span>
-                    </div>` : ''}
-                    ${data.insert ? `<div class="info-row">
-                        <span class="info-label">Insert</span>
-                        <span class="info-value">${data.insert}</span>
-                    </div>` : ''}
-                    <div style="margin-top: 10px;">${badges}</div>
-                `;
-                
-                grid.appendChild(card);
-            }
+                        <div style="margin-top: 10px;">${badges}</div>
+                    `;
+                    
+                    grid.appendChild(card);
+                }
+            });
         }
 
         function renderS32() {
-            const grid = document.getElementById('s32Grid');
-            grid.innerHTML = '';
+            const grids = ['s32Grid', 'allS32Grid'];
             
-            for (let [port, destination] of Object.entries(s32Connections)) {
-                const card = document.createElement('div');
-                card.className = 'connection-card';
+            grids.forEach(gridId => {
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                grid.innerHTML = '';
                 
-                card.innerHTML = `
-                    <div class="connection-label">${port}</div>
-                    <div class="connection-value">${destination}</div>
-                `;
-                
-                grid.appendChild(card);
-            }
+                for (let [port, destination] of Object.entries(s32Connections)) {
+                    const card = document.createElement('div');
+                    card.className = 'connection-card';
+                    
+                    card.innerHTML = `
+                        <div class="connection-label">${port}</div>
+                        <div class="connection-value">${destination}</div>
+                    `;
+                    
+                    grid.appendChild(card);
+                }
+            });
         }
 
         function renderMainOutputs() {
-            const grid = document.getElementById('mainOutputGrid');
-            grid.innerHTML = '';
+            const grids = ['mainOutputGrid', 'allMainOutputGrid'];
             
-            for (let [port, destination] of Object.entries(mainOutputs)) {
-                const card = document.createElement('div');
-                card.className = 'connection-card';
+            grids.forEach(gridId => {
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                grid.innerHTML = '';
                 
-                card.innerHTML = `
-                    <div class="connection-label">${port}</div>
-                    <div class="connection-value">${destination}</div>
-                `;
-                
-                grid.appendChild(card);
-            }
+                for (let [port, destination] of Object.entries(mainOutputs)) {
+                    const card = document.createElement('div');
+                    card.className = 'connection-card';
+                    
+                    card.innerHTML = `
+                        <div class="connection-label">${port}</div>
+                        <div class="connection-value">${destination}</div>
+                    `;
+                    
+                    grid.appendChild(card);
+                }
+            });
         }
 
         function renderFX() {
-            const grid = document.getElementById('fxGrid');
-            grid.innerHTML = '';
+            const grids = ['fxGrid', 'allFxGrid'];
             
-            for (let [num, data] of Object.entries(fxData)) {
-                const card = document.createElement('div');
-                card.className = 'output-card';
-                card.style.borderLeft = '4px solid #e74c3c';
+            grids.forEach(gridId => {
+                const grid = document.getElementById(gridId);
+                if (!grid) return;
+                grid.innerHTML = '';
                 
-                card.innerHTML = `
-                    <div class="channel-header">
-                        <span class="channel-number">FX ${num}</span>
-                    </div>
-                    <div class="channel-name">${data.name}</div>
-                    <div style="color: #e74c3c; font-size: 0.9em; margin-bottom: 10px;">🎛️ ${data.type}</div>
-                    <div class="info-row">
-                        <span class="info-label">Source</span>
-                        <span class="info-value">${data.source}</span>
-                    </div>
-                    ${data.returns.length > 0 ? `<div class="info-row">
-                        <span class="info-label">Returns</span>
-                        <span class="info-value">${data.returns.join(', ')}</span>
-                    </div>` : ''}
-                    <div class="signal-flow">
-                        <div class="signal-flow-title">⚙️ Settings:</div>
-                        <div style="color: #ccc; font-size: 0.85em; padding: 5px 0;">${data.settings}</div>
-                    </div>
-                `;
-                
-                grid.appendChild(card);
-            }
+                for (let [num, data] of Object.entries(fxData)) {
+                    const card = document.createElement('div');
+                    card.className = `output-card color-${data.color.toLowerCase()}`;
+                    card.onclick = () => showFxDetail(num, data);
+                    
+                    card.innerHTML = `
+                        <div class="channel-header">
+                            <span class="channel-number">FX ${num}</span>
+                            <span style="color: ${getColorStyle(data.color)}; font-size: 1.5em;">●</span>
+                        </div>
+                        <div class="channel-name">${data.name}</div>
+                        <div style="color: #e74c3c; font-size: 0.9em; margin-bottom: 10px;">🎛️ ${data.type}</div>
+                        <div class="info-row">
+                            <span class="info-label">Source</span>
+                            <span class="info-value">${data.source}</span>
+                        </div>
+                        ${data.returns.length > 0 ? `<div class="info-row">
+                            <span class="info-label">Returns</span>
+                            <span class="info-value">${data.returns.join(', ')}</span>
+                        </div>` : ''}
+                        <div class="signal-flow">
+                            <div class="signal-flow-title">⚙️ Settings:</div>
+                            <div style="color: #ccc; font-size: 0.85em; padding: 5px 0;">${data.settings}</div>
+                        </div>
+                    `;
+                    
+                    grid.appendChild(card);
+                }
+            });
         }
 
         function renderMatrix() {
@@ -803,8 +1145,13 @@
             const modal = document.getElementById('detailModal');
             const body = document.getElementById('modalBody');
             
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+            
             let badges = '';
             if (data.wireless) badges += '<span class="badge badge-wireless">WIRELESS</span>';
+            if (data.type === 'card') badges += '<span class="badge badge-card">CARD INPUT</span>';
+            if (num == 15 || num == 16) badges += '<span class="badge badge-trigger">DRUM TRIGGER</span>';
             if (data.eq) badges += '<span class="badge badge-eq">EQ</span>';
             if (data.comp) badges += '<span class="badge badge-comp">COMP</span>';
             if (data.gate) badges += '<span class="badge badge-gate">GATE</span>';
@@ -817,6 +1164,11 @@
                 ${data.wireless ? `<div class="detail-section">
                     <div class="detail-title">📡 Wireless System</div>
                     <div>${data.wireless}</div>
+                </div>` : ''}
+                
+                ${data.source ? `<div class="detail-section">
+                    <div class="detail-title">📥 Source</div>
+                    <div>${data.source}</div>
                 </div>` : ''}
                 
                 ${data.note ? `<div class="detail-section">
@@ -862,11 +1214,11 @@
                     <div class="detail-title">🎨 Console Display</div>
                     <div class="info-row">
                         <span class="info-label">Color</span>
-                        <span class="info-value">${data.color}</span>
+                        <span class="info-value" style="color: ${getColorStyle(data.color)}">● ${data.color}</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Type</span>
-                        <span class="info-value">${data.type === 'wireless' ? 'Wireless' : 'Wired'}</span>
+                        <span class="info-value">${data.type === 'wireless' ? 'Wireless' : data.type === 'card' ? 'Card Input' : 'Wired'}</span>
                     </div>
                 </div>
             `;
@@ -877,6 +1229,9 @@
         function showAuxDetail(num, data) {
             const modal = document.getElementById('detailModal');
             const body = document.getElementById('modalBody');
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
             
             body.innerHTML = `
                 <h2 style="color: #00d4ff; margin-bottom: 20px;">Aux Input ${num}: ${data.name}</h2>
@@ -896,12 +1251,24 @@
                         <span class="info-label">EQ</span>
                         <span class="info-value">${data.eq ? 'Active' : 'Bypassed'}</span>
                     </div>
+                    ${data.dca ? `<div class="info-row">
+                        <span class="info-label">DCA</span>
+                        <span class="info-value">${data.dca}</span>
+                    </div>` : ''}
                 </div>
                 
                 ${data.sends && data.sends.length > 0 ? `<div class="detail-section">
                     <div class="detail-title">🎯 Send Routing</div>
                     ${data.sends.map(s => `<div class="signal-destination" style="margin: 6px 0;">${s}</div>`).join('')}
                 </div>` : ''}
+                
+                <div class="detail-section">
+                    <div class="detail-title">🎨 Console Display</div>
+                    <div class="info-row">
+                        <span class="info-label">Color</span>
+                        <span class="info-value" style="color: ${getColorStyle(data.color)}">● ${data.color}</span>
+                    </div>
+                </div>
             `;
             
             modal.classList.add('active');
@@ -911,12 +1278,21 @@
             const modal = document.getElementById('detailModal');
             const body = document.getElementById('modalBody');
             
-            // Find all channels sending to this bus
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+            
             const sendingChannels = [];
             for (let [chNum, chData] of Object.entries(channelData)) {
                 if (chData.sends && chData.sends.some(s => s.includes(`Bus ${num}`) || s.includes(`Mon ${num}`))) {
                     const sendInfo = chData.sends.find(s => s.includes(`Bus ${num}`) || s.includes(`Mon ${num}`));
                     sendingChannels.push({ num: chNum, name: chData.name, send: sendInfo });
+                }
+            }
+            
+            for (let [auxNum, auxData] of Object.entries(auxInputData)) {
+                if (auxData.sends && auxData.sends.some(s => s.includes(`Bus ${num}`) || s.includes(`Mon ${num}`))) {
+                    const sendInfo = auxData.sends.find(s => s.includes(`Bus ${num}`) || s.includes(`Mon ${num}`));
+                    sendingChannels.push({ num: `AUX ${auxNum}`, name: auxData.name, send: sendInfo });
                 }
             }
             
@@ -952,17 +1328,66 @@
                     <div class="detail-title">🎯 Incoming Channels (${sendingChannels.length})</div>
                     ${sendingChannels.map(ch => `
                         <div class="signal-destination" style="margin: 6px 0;">
-                            CH ${ch.num}: ${ch.name} - ${ch.send}
+                            ${ch.num}: ${ch.name} - ${ch.send}
                         </div>
                     `).join('')}
                 </div>` : ''}
+                
+                <div class="detail-section">
+                    <div class="detail-title">🎨 Console Display</div>
+                    <div class="info-row">
+                        <span class="info-label">Color</span>
+                        <span class="info-value" style="color: ${getColorStyle(data.color)}">● ${data.color}</span>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function showFxDetail(num, data) {
+            const modal = document.getElementById('detailModal');
+            const body = document.getElementById('modalBody');
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+            
+            body.innerHTML = `
+                <h2 style="color: #00d4ff; margin-bottom: 20px;">FX ${num}: ${data.name}</h2>
+                
+                <div class="detail-section">
+                    <div class="detail-title">🎛️ Effect Type</div>
+                    <div style="font-size: 1.1em;">${data.type}</div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">📥 Source</div>
+                    <div>${data.source}</div>
+                </div>
+                
+                ${data.returns.length > 0 ? `<div class="detail-section">
+                    <div class="detail-title">📤 Returns</div>
+                    <div>${data.returns.join(', ')}</div>
+                </div>` : ''}
+                
+                <div class="detail-section">
+                    <div class="detail-title">⚙️ Settings</div>
+                    <div>${data.settings}</div>
+                </div>
+                
+                <div class="detail-section">
+                    <div class="detail-title">🎨 Console Display</div>
+                    <div class="info-row">
+                        <span class="info-label">Color</span>
+                        <span class="info-value" style="color: ${getColorStyle(data.color)}">● ${data.color}</span>
+                    </div>
+                </div>
             `;
             
             modal.classList.add('active');
         }
 
         function showTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
@@ -970,7 +1395,6 @@
                 tab.classList.remove('active');
             });
             
-            // Show selected tab
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
@@ -979,18 +1403,12 @@
             const modal = document.getElementById('detailModal');
             if (!event || event.target === modal) {
                 modal.classList.remove('active');
+                // Re-enable body scroll when modal is closed
+                document.body.style.overflow = '';
             }
         }
 
-        function filterContent() {
-            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
-            document.querySelectorAll('.channel-card, .output-card, .connection-card').forEach(card => {
-                const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(searchTerm) ? 'block' : 'none';
-            });
-        }
-
-        // Initialize
+        buildSearchIndex();
         renderChannels();
         renderAuxInputs();
         renderBuses();
